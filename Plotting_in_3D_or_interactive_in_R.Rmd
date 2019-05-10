@@ -1,0 +1,25 @@
+---
+title: "Using 3D plotting in R Notebook"
+output: html_notebook
+---
+There are many libraries for the following: 
+(1) for 2-D interactive heatmap;
+(2) For 3D plotting
+
+Useful keywords: htmlwidgets for R
+
+```{r}
+library(car)
+#install.packages("d3heatmap")
+library(d3heatmap)
+d3heatmap(mtcars, scale="column", colors="Blues")
+```
+```{r}
+library(threejs)
+z <- seq(-10, 10, 0.01)
+x <- cos(z)
+y <- sin(z)
+scatterplot3js(x,y,z, color=rainbow(length(z)))
+```
+
+

@@ -1,0 +1,66 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+Biggest problem encountered so far for rcharts is that there is no rendering of the plots in R notebook.
+
+
+```{r}
+#require(devtools)
+#install_github('ramnathv/rCharts')
+```
+
+
+```{r}
+library(rCharts)
+options(RCHART_WIDTH = 600, RCHART_HEIGHT = 400)
+library(knitr)
+knitr::opts_chunk$set(comment = NA, results = 'asis', tidy = F, message = F)
+```
+
+
+```{r}
+iris
+```
+
+```{r}
+opts_chunk$set(comment = NA, results = "asis", comment = NA, tidy = F)
+names(iris) = gsub("\\.", "", names(iris))
+p1 = rPlot(SepalLength ~ SepalWidth | Species, data = iris, color = 'Species', type = 'point')
+#p1$print()
+p1$print(include_assets=T)
+```
+
+```{r}
+library(reshape2)
+data(tips, package = 'reshape2')
+p3 = rPlot(x = 'day', y = 'box(tip)', data = tips, type = 'box')
+p3$print(include_assets=T)
+```
+
+```{r results = "asis", comment = NA}
+r1 <- rPlot(mpg ~ wt, data = mtcars, type = 'point')
+```
+```
+
+
+```{r results = "asis", comment = NA}
+
+```
+
+
+```{r results = "asis", comment = NA}
+r1$show('iframe', cdn = TRUE)
+```
+
+```{r}
+p3$save('boxplot_local_rcharts.html')   # saves it as html, but js, css still point to local machine
+
+##this cdn thing did not work
+#link js/css assets from an online cdn
+p3$save('boxplot_cdn_rcharts.html', cdn = TRUE) # saves it as html, and js, css point to cdn
+
+#create standalone chart with all assets included directly in the html file
+p3$save('boxplot_standalone_rcharts.html', standalone = TRUE) 
+```
+

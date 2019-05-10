@@ -1,0 +1,60 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+library(ggplot2)
+p=ggplot(diamonds)
+p+geom_histogram(aes(x=price))
+```
+
+```{r}
+p2=ggplot(diamonds,aes(x=price))
+p2+geom_histogram()
+p2+stat_bin(geom = "area")
+p2+stat_bin(geom = "point")
+p2+stat_bin(geom = "line")
+p2+geom_histogram(aes(fill=clarity))
+#desnity is a new variable introduced by stat
+p2+geom_histogram(aes(y=..density..))
+```
+```{r}
+diamonds
+p=ggplot(diamonds,aes(x=carat,y=price))
+p+geom_point(aes(colour="green")) #"green" is just a name
+p+geom_point(colour="green")  #color of points is green
+#p+geom_point(colour=factor(diamonds$color)) #not working
+ggplot(diamonds,aes(x=carat,y=price,color=factor(cut)))+geom_point()+geom_smooth()
+```
+```{r}
+p3=ggplot(diamonds,aes(x=cut,y=price))
+p3+geom_boxplot(fill="red")+coord_flip()
+p3+geom_violin()+stat_summary(fun.y="median",geom="point")
+p3+geom_jitter()
+```
+```{r}
+p3=ggplot(diamonds,aes(x=carat,y=price))
+p3+geom_line()+facet_wrap(~cut,ncol = 2)
+```
+```{r}
+#install.packages("ggrepel")
+library(ggrepel)
+state.abb
+state.x77
+stateinfo=data.frame(state.abb,state.x77)
+stateinfo
+p4=ggplot(stateinfo,aes(x=Population,y=Income))
+p4+geom_point()
+p4+geom_point()+geom_text(aes(label=state.abb),size=3)
+p4+geom_point()+geom_text_repel(aes(label=state.abb),size=3)
+p5=p4+geom_point(aes(text=paste("state:",state.abb,"murder:",Murder)))
+library(plotly)
+ggplotly(p5)
+
+```
+

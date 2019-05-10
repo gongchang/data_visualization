@@ -1,0 +1,93 @@
+---
+title: "googleVis Notebook"
+output:  html_notebook
+---
+
+
+
+```{r}
+#install.packages("googleVis")
+```
+
+1
+down vote
+accepted
+RStudio probably uses a different pandoc version than the one you get on the command line... (see e.g. this issue.)
+
+Try installing the newest pandoc and make sure you're using that with pandoc -v
+
+```{r}
+df=data.frame(country=c("US", "GB", "BR"), 
+              val1=c(10,13,14), 
+              val2=c(23,12,32))
+df
+```
+
+
+```{r}
+library(ggplot2)
+ggplot(df,aes(x=val1,y=val2))+geom_point()
+```
+
+
+```{r}
+library(googleVis)
+#op <- options(gvis.plot.tag="chart") #this prevents the rendering in the browser;
+#just print the html out
+```
+```{r}
+#{r results='asis', tidy=TRUE}
+#devtools::install_github('mages/googleVis')
+#library(googleVis)
+Line <- gvisLineChart(df)
+plot(Line)
+```
+
+
+```{r}
+#{r,results='asis'}
+#library(googleVis)
+#op <- options(gvis.plot.tag='chart')
+Bar <- gvisBarChart(df)
+plot(Bar)
+```
+
+
+```{r}
+data("Fruits")
+M=gvisMotionChart(Fruits, "Fruit", "Year", options = list(width = 600, height = 400))
+```
+
+
+```{r}
+M
+```
+
+```{r}
+#not popping up
+plot(M)
+```
+
+
+```{r}
+#it is not popping up, and now it is also not displaying any figure in the browser
+cat(M$html$chart, file="motion.html")
+```
+
+```{r}
+#this one works (it also previously popped up when run "plot(Bar)")
+cat(Bar$html$chart, file="Bar.html")
+```
+
+
+```{r}
+ScatterC <- gvisScatterChart(cars)
+plot(ScatterC)
+```
+
+Also works (so Fruits are available; the motion chart itself did not work)
+```{r}
+BubbleC <- gvisBubbleChart(Fruits)
+plot(BubbleC)
+```
+
